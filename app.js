@@ -53,12 +53,38 @@ function validarCampos() {
         return false;
     }
 
-    // Validação adicional: garantir que 'de' seja menor que 'até' e 'quantidade' seja positiva
+    // Validação para garantir que 'de' seja menor que 'até' e 'quantidade' seja positiva
     if (parseInt(de) >= parseInt(ate)) {
         resultado.innerHTML = '<label class="texto__paragrafo">O valor "De" deve ser menor que "Até".</label>';
         return false;
     }
 
+    // Valida se "De" e "Até" são números validos
+    if (isNaN(parseInt(de)) || isNaN(parseInt(ate))) {
+        resultado.innerHTML = '<label class="texto__paragrafo">Os campos "De" e "Até" devem conter valores numéricos.</label>';
+        return false;
+    }    
+
+    // Valida se "De" e "Até" são números positivos
+    if (parseInt(de) < 0 || parseInt(ate) < 0 || parseInt(quantidade) < 0) {
+        resultado.innerHTML = '<label class="texto__paragrafo">Os valores não podem ser negativos.</label>';
+        return false;
+    }
+
+    // Valida se "De" e "Até" são iguais
+    if (parseInt(de) >= parseInt(ate)) {
+        resultado.innerHTML = '<label class="texto__paragrafo">O valor "De" deve ser menor que "Até".</label>';
+        return false;
+    }    
+    
+    // Verifica se a quantidade é maior do que o intervalo possível
+    if (parseInt(quantidade) > (parseInt(ate) - parseInt(de) + 1)) {
+        resultado.innerHTML = '<label class="texto__paragrafo">A quantidade de números sorteados não pode ser maior do que os intervalo "De" e "Até".</label>';
+        return false;
+    }
+
+
+    // Validação se a quantidade de números sorteados é maior ou menor que 0
     if (parseInt(quantidade) <= 0) {
         resultado.innerHTML = '<label class="texto__paragrafo">A quantidade de números sorteados deve ser maior que 0.</label>';
         return false;
@@ -80,7 +106,6 @@ function alterarStautsBotaoReiniciar() {
     }
 }
 
-// Função para reiniciar os campos e o status
 function reiniciar() {
     document.getElementById("quantidade").value = "";
     document.getElementById("de").value = "";
